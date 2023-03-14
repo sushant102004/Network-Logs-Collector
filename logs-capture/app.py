@@ -41,5 +41,5 @@ if __name__ == "__main__":
 
         f.write("{}]")
 
-    print("Quitting Selenium WebDriver")
+    print("Logs Saved")
     driver.quit()
