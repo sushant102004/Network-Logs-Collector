@@ -1,10 +1,18 @@
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from fastapi import FastAPI
 import time
 import json
 
 
-def getNetworkLogs():
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+def getNetworkLogs(siteURL):
     desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}
 
@@ -16,7 +24,6 @@ def getNetworkLogs():
 
     driver = webdriver.Chrome(options=options, desired_capabilities=desired_capabilities)
 
-    siteURL = input('Enter Website URL: ')
     driver.get(siteURL)
 
     time.sleep(10)
@@ -43,7 +50,3 @@ def getNetworkLogs():
 
     print("Logs Saved")
     driver.quit()
-
-
-if __name__ == "__main__":
-    getNetworkLogs()
