@@ -8,13 +8,13 @@ app = FastAPI()
 
 def captureNetworkLogs(site: str):
     desired_capabilities = DesiredCapabilities.CHROME
-    desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}
+    desired_capabilities['goog:loggingPrefs'] = {'performance': 'ALL'}
 
     options = webdriver.ChromeOptions()
 
     options.add_argument('headless')
 
-    options.add_argument("--ignore-certificate-errors")
+    options.add_argument('--ignore-certificate-error')
 
     driver = webdriver.Chrome(options=options, desired_capabilities=desired_capabilities)
 
@@ -24,25 +24,25 @@ def captureNetworkLogs(site: str):
 
     logs = driver.get_log("performance")
 
-    with open("network_log.json", "w", encoding="utf-8") as f:
+    with open('network_log.json', 'w', encoding='utf-8') as f:
         f.write("[")
 
         for log in logs:
-            network_log = json.loads(log["message"])["message"]
+            network_log = json.loads(log['message'])['message']
 
-            if("Network.response" in network_log["method"]):
+            if('Network.response' in network_log['method']):
 
-                if network_log['method'] == "Network.responseReceived":
-                    mimeType = network_log["params"]["response"]["mimeType"]
-                    log_name = network_log["params"]["response"]["url"]
-                    status_code = network_log["params"]["response"]["status"]
+                if network_log['method'] == 'Network.responseReceived':
+                    mimeType = network_log['params']['response']['mimeType']
+                    log_name = network_log['params']['response']['url']
+                    status_code = network_log['params']['response']['status']
 
-                    data = {"log_name": log_name, "status_code": status_code, "type": mimeType}
-                    f.write(json.dumps(data) + ",")
+                    data = {'log_name': log_name, 'status_code': status_code, 'type': mimeType}
+                    f.write(json.dumps(data) + ',')
 
-        f.write("{}]")
+        f.write('{}]')
 
-    print("Logs Saved")
+    print('Logs Saved')
     driver.quit()
 
     jsonOutput = open('network_log.json')
