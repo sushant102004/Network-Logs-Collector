@@ -50,6 +50,6 @@ def captureNetworkLogs(siteURL):
 
 
 
-@app.get(apiEndpoint + 'capture-logs/{stiteUrl}')
-def generateCaptureResponse():
-    return captureNetworkLogs()
+@app.get('api/v1/')
+def root():
+    return {'status' : 'success'}
