@@ -4,10 +4,9 @@ from fastapi import FastAPI
 import time
 import json
 
-
 app = FastAPI()
 
-def captureNetworkLogs():
+def captureNetworkLogs(site: str):
     desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}
 
@@ -19,7 +18,7 @@ def captureNetworkLogs():
 
     driver = webdriver.Chrome(options=options, desired_capabilities=desired_capabilities)
 
-    driver.get('https://google.com')
+    driver.get('https://' + site)
 
     time.sleep(10)
 
@@ -50,5 +49,5 @@ def captureNetworkLogs():
 
 @app.get('/capture-logs/{site}')
 async def root(site: str):
-    result = captureNetworkLogs()
+    result = captureNetworkLogs(site)
     return { 'data' : result }
