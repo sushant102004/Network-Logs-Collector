@@ -44,7 +44,11 @@ def captureNetworkLogs(site: str):
 
     print("Logs Saved")
     driver.quit()
-    return data
+
+    jsonOutput = open('network_log.json')
+    result = json.load(jsonOutput)
+
+    return result
 
 
 @app.get('/capture-logs/{site}')
