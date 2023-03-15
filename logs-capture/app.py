@@ -4,8 +4,7 @@ import time
 import json
 
 
-if __name__ == "__main__":
-
+def getNetworkLogs():
     desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}
 
@@ -17,7 +16,8 @@ if __name__ == "__main__":
 
     driver = webdriver.Chrome(options=options, desired_capabilities=desired_capabilities)
 
-    driver.get("https://www.lambdatest.com/")
+    siteURL = input('Enter Website URL: ')
+    driver.get(siteURL)
 
     time.sleep(10)
 
@@ -43,3 +43,7 @@ if __name__ == "__main__":
 
     print("Logs Saved")
     driver.quit()
+
+
+if __name__ == "__main__":
+    getNetworkLogs()
