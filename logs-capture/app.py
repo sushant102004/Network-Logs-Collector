@@ -4,13 +4,20 @@ from selenium.webdriver.common.by import By
 from fastapi import FastAPI
 import time
 import json
+import re
 
 app = FastAPI()
 
-def saveLogs(driver):
+def saveLogs(driver, pageURL):
     logs = driver.get_log("performance")
 
-    with open('network_log.json', 'a', encoding='utf-8') as f:
+    # TO-DO Fix file name issue
+    fileName = re.compile(r'https?://(www\.)?')
+    fileName = fileName.sub('', pageURL).strip().strip('/')
+
+    with open('logs/' + fileName + '.json', 'w', encoding='utf-8') as f:
+        f.write("[")
+
         for log in logs:
             network_log = json.loads(log['message'])['message']
 
@@ -51,13 +58,13 @@ def captureNetworkLogs(site: str):
     time.sleep(10)
 
     # Saving logs for intial page load
-    saveLogs(driver)
+    saveLogs(driver, driver.current_url)
 
     menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Sign up for Free')
     menuLink.click()
     time.sleep(10)
     # Logs for Enterprise page
-    saveLogs(driver)
+    saveLogs(driver, driver.current_url)
 
     driver.quit()
 
