@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from fastapi import FastAPI
 import time
 import json
@@ -11,7 +12,6 @@ app = FastAPI()
 def saveLogs(driver, pageURL):
     logs = driver.get_log("performance")
 
-    # TO-DO Fix file name issue
     fileName = re.compile(r'https?://(www\.)?')
     fileName = fileName.sub('', pageURL).strip().strip('/')
     fileName += '.json'
@@ -60,16 +60,45 @@ def captureNetworkLogs(site: str):
     # Saving logs for intial page load
     saveLogs(driver, driver.current_url)
 
-    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Sign up for Free')
+    action = ActionChains(driver)
+
+    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Pricing')
+    menuLink.click()
+    time.sleep(10)
+    # Logs for Pricing page
+    saveLogs(driver, driver.current_url)
+
+
+    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Platform')
+    menuLink.click()
+    time.sleep(10)
+    # Logs for Platform page
+    saveLogs(driver, driver.current_url)
+
+    
+
+    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Enterprise')
     menuLink.click()
     time.sleep(10)
     # Logs for Enterprise page
     saveLogs(driver, driver.current_url)
 
-    driver.quit()
 
-    # jsonOutput = open('network_log.json')
-    # result = json.load(jsonOutput)
+    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Login')
+    menuLink.click()
+    time.sleep(10)
+    # Logs for Login page
+    saveLogs(driver, driver.current_url)
+
+    driver.back()
+    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Sign Up')
+    menuLink.click()
+    time.sleep(10)
+    # Logs for Login page
+    saveLogs(driver, driver.current_url)
+
+
+    driver.quit()
 
     return {'result' : 'OK'}
 
