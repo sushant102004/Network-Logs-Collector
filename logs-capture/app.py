@@ -14,8 +14,10 @@ def saveLogs(driver, pageURL):
     # TO-DO Fix file name issue
     fileName = re.compile(r'https?://(www\.)?')
     fileName = fileName.sub('', pageURL).strip().strip('/')
+    fileName += '.json'
+    fileName = fileName.replace('/', '.')
 
-    with open('logs/' + fileName + '.json', 'w', encoding='utf-8') as f:
+    with open('logs/' + fileName, 'w', encoding='utf-8') as f:
         f.write("[")
 
         for log in logs:
@@ -38,8 +40,6 @@ def saveLogs(driver, pageURL):
 
 
 def captureNetworkLogs(site: str):
-    # Clear network_log.json
-    open('network_log.json', 'w').close()
 
     desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities['goog:loggingPrefs'] = {'performance': 'ALL'}
@@ -68,10 +68,10 @@ def captureNetworkLogs(site: str):
 
     driver.quit()
 
-    jsonOutput = open('network_log.json')
-    result = json.load(jsonOutput)
+    # jsonOutput = open('network_log.json')
+    # result = json.load(jsonOutput)
 
-    return result
+    return {'result' : 'OK'}
 
 
 @app.get('/capture-logs/{site}')
