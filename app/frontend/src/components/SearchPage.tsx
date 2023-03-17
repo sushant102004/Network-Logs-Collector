@@ -25,8 +25,8 @@ export default function SearchPage() {
                 <textarea
                 className="focus:outline-0 bg-slate-50 border-2 rounded-md w-96 h-36 p-2 mt-6"
                 placeholder = 'Enterprise&#10;Pricing&#10;Platform'
-                value={site}
-                onChange={(event) => setSite(event.target.value)}
+                value={pages}
+                onChange={(event) => setPages(event.target.value)}
                 ></textarea>
 
                 <div className="flex w-24 h-8 bg-yellow-400 rounded-md justify-center items-center text-sm text-slate-800 ml-auto mr-auto mt-6">
