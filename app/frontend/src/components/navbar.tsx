@@ -13,7 +13,7 @@ export default function NavBar() {
             </ul>
             {/* LinkedIn Button */}
             <div className="flex w-24 h-8 bg-yellow-400 rounded-md justify-center items-center text-sm text-slate-800">
-                <a href="/" className="bg-transparent">New Scan</a>
+                <a href="/" className="bg-transparent">LinkedIn</a>
             </div>
         </div>
         <hr className='bg-slate-400' style={{height : '0.1rem'}}></hr>
