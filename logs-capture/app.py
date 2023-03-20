@@ -39,7 +39,7 @@ def saveLogs(driver, pageURL):
 
 
 
-def captureNetworkLogs(site: str):
+def captureNetworkLogs(site: str, pages : list = []):
 
     desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities['goog:loggingPrefs'] = {'performance': 'ALL'}
@@ -62,40 +62,15 @@ def captureNetworkLogs(site: str):
 
     action = ActionChains(driver)
 
-    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Pricing')
-    menuLink.click()
-    time.sleep(10)
-    # Logs for Pricing page
-    saveLogs(driver, driver.current_url)
 
-
-    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Platform')
-    menuLink.click()
-    time.sleep(10)
-    # Logs for Platform page
-    saveLogs(driver, driver.current_url)
-
-    
-
-    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Enterprise')
-    menuLink.click()
-    time.sleep(10)
-    # Logs for Enterprise page
-    saveLogs(driver, driver.current_url)
-
-
-    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Login')
-    menuLink.click()
-    time.sleep(10)
-    # Logs for Login page
-    saveLogs(driver, driver.current_url)
-
-    driver.back()
-    menuLink = driver.find_element(by = By.LINK_TEXT, value = 'Sign Up')
-    menuLink.click()
-    time.sleep(10)
-    # Logs for Login page
-    saveLogs(driver, driver.current_url)
+    if len(pages) > 0:
+        for i in range(len(pages)):
+            menuLink = driver.find_element(by = By.LINK_TEXT, value = pages[i])
+            menuLink.click()
+            time.sleep(10)
+            saveLogs(driver, driver.current_url)
+    else:
+        print('Pages not passed.')
 
 
     driver.quit()
