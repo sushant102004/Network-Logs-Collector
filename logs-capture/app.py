@@ -18,9 +18,12 @@ def saveLogs(driver, pageURL):
     fileName = fileName.replace('/', '.')
 
     with open('logs/' + fileName, 'w', encoding='utf-8') as f:
+        f.write("{")
+        f.write('"logs"')
+        f.write(':')
         f.write("[")
-
         for log in logs:
+
             network_log = json.loads(log['message'])['message']
 
             if('Network.response' in network_log['method']):
@@ -29,11 +32,12 @@ def saveLogs(driver, pageURL):
                     mimeType = network_log['params']['response']['mimeType']
                     log_name = network_log['params']['response']['url']
                     status_code = network_log['params']['response']['status']
+                    responseTime = network_log['params']['response']['responseTime']
 
-                    data = {'log_name': log_name, 'status_code': status_code, 'type': mimeType}
+                    data = {'log_name': log_name, 'status_code': status_code, 'type': mimeType, 'response_time': responseTime}
                     f.write(json.dumps(data) + ',')
 
-        f.write('{}]')
+        f.write('{}]}')
 
         print('Logs Saved')
 
